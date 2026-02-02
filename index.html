@@ -115,43 +115,43 @@
             50% { transform: translateZ(-180px) scale(1.05); }
         }
 
-        /* Ракета - пролетает наискосок */
+        /* Ракета - пролетает вертикально вверх */
         .rocket {
             position: fixed;
-            width: 60px;
-            height: 100px;
+            width: 50px;
+            height: 120px;
             z-index: -1;
-            animation: fly-rocket 20s linear infinite;
+            animation: fly-rocket 25s linear infinite;
             opacity: 0;
-            filter: drop-shadow(0 0 15px rgba(255, 0, 130, 0.7));
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
         }
 
         @keyframes fly-rocket {
             0% { 
-                transform: translate(-150px, calc(100vh + 50px)) rotate(-45deg) scale(0.8);
+                transform: translate(calc(20% + 50px), calc(100vh + 150px)) scale(0.6);
                 opacity: 0;
             }
             5% { 
                 opacity: 1;
             }
-            45% { 
+            40% { 
                 opacity: 1;
-                filter: drop-shadow(0 0 25px rgba(255, 0, 130, 0.9));
+                filter: drop-shadow(0 0 20px rgba(100, 180, 255, 0.8));
+            }
+            45% {
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1));
             }
             50% {
-                filter: drop-shadow(0 0 35px rgba(255, 215, 0, 1));
+                filter: drop-shadow(0 0 25px rgba(100, 180, 255, 0.9));
             }
-            55% {
-                filter: drop-shadow(0 0 25px rgba(255, 0, 130, 0.9));
-            }
-            90% { 
+            85% { 
                 opacity: 1;
             }
             95% { 
-                opacity: 0.5;
+                opacity: 0.3;
             }
             100% { 
-                transform: translate(calc(100vw + 150px), -150px) rotate(-45deg) scale(0.8);
+                transform: translate(calc(20% + 50px), -200px) scale(0.6);
                 opacity: 0;
             }
         }
@@ -706,8 +706,8 @@
             }
             
             .rocket {
-                width: 45px;
-                height: 75px;
+                width: 40px;
+                height: 95px;
             }
         }
         
@@ -758,9 +758,9 @@
             }
             
             .rocket {
-                width: 40px;
-                height: 65px;
-                animation-duration: 15s;
+                width: 35px;
+                height: 80px;
+                animation-duration: 20s;
             }
         }
         
@@ -785,24 +785,34 @@
 
     <!-- Ракета -->
     <div class="rocket">
-        <svg viewBox="0 0 100 200">
-            <!-- Корпус ракеты -->
-            <path d="M50 0 L70 60 L60 80 L70 120 L50 150 L30 120 L40 80 L30 60 Z" fill="#ff0080"/>
-            <!-- Носовая часть -->
-            <path d="M45 0 L55 0 L50 20 Z" fill="#ffd700"/>
-            <!-- Стабилизаторы -->
-            <path d="M45 150 L55 150 L55 180 L50 200 L45 180 Z" fill="#7928ca"/>
-            <path d="M0 100 L20 110 L20 130 L0 140 Z" fill="#ff0080" opacity="0.8"/>
-            <path d="M100 100 L80 110 L80 130 L100 140 Z" fill="#ff0080" opacity="0.8"/>
-            <!-- Иллюминатор -->
-            <circle cx="50" cy="40" r="8" fill="#ffd700"/>
-            <circle cx="50" cy="40" r="6" fill="#0a0e17"/>
-            <!-- Огонь сопла -->
-            <path d="M45 180 L55 180 L52 210 L50 220 L48 210 Z" fill="#ff4500">
-                <animate attributeName="opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite"/>
+        <svg viewBox="0 0 100 300">
+            <!-- Носовая часть (конус) -->
+            <path d="M50 0 L70 40 L50 80 L30 40 Z" fill="#ffd700"/>
+            <!-- Корпус ракеты (светло-серый) -->
+            <rect x="35" y="60" width="30" height="180" fill="#c0c0c0" rx="5"/>
+            <!-- Верхняя часть корпуса -->
+            <path d="M35 60 L40 45 L60 45 L65 60 Z" fill="#a9a9a9"/>
+            <!-- Иллюминаторы -->
+            <circle cx="50" cy="100" r="8" fill="#ffd700"/>
+            <circle cx="50" cy="100" r="6" fill="#0a0e17"/>
+            <circle cx="50" cy="140" r="8" fill="#ffd700"/>
+            <circle cx="50" cy="140" r="6" fill="#0a0e17"/>
+            <circle cx="50" cy="180" r="8" fill="#ffd700"/>
+            <circle cx="50" cy="180" r="6" fill="#0a0e17"/>
+            <!-- Стабилизаторы (4 штуки) -->
+            <path d="M35 200 L20 240 L35 240 Z" fill="#808080"/>
+            <path d="M65 200 L80 240 L65 240 Z" fill="#808080"/>
+            <path d="M35 200 L20 160 L35 160 Z" fill="#808080"/>
+            <path d="M65 200 L80 160 L65 160 Z" fill="#808080"/>
+            <!-- Нижняя часть -->
+            <path d="M30 240 L35 240 L35 260 L50 280 L65 260 L65 240 L70 240 Z" fill="#696969"/>
+            <!-- Огонь сопла (пульсирующий) -->
+            <path d="M42 280 L45 280 L44 320 L50 340 L56 320 L55 280 L58 280 Z" fill="#ff4500">
+                <animate attributeName="opacity" values="0.7;1;0.7" dur="0.6s" repeatCount="indefinite"/>
+                <animate attributeName="d" values="M42 280 L45 280 L44 320 L50 340 L56 320 L55 280 L58 280 Z;M43 280 L45 280 L46 310 L50 335 L54 310 L55 280 L57 280 Z;M42 280 L45 280 L44 320 L50 340 L56 320 L55 280 L58 280 Z" dur="1s" repeatCount="indefinite"/>
             </path>
-            <path d="M47 180 L53 180 L51 200 L50 210 L49 200 Z" fill="#ffd700">
-                <animate attributeName="opacity" values="0.9;1;0.9" dur="0.4s" repeatCount="indefinite"/>
+            <path d="M45 280 L47 280 L46 300 L50 320 L54 300 L53 280 L55 280 Z" fill="#ffd700">
+                <animate attributeName="opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite"/>
             </path>
         </svg>
     </div>
