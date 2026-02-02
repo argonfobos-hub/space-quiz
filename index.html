@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Звёздный рубеж России | Викторина по космонавтике</title>
+    <title>ЗВЁЗДНЫЙ РУБЕЖ РОССИИ | Викторина по космонавтике</title>
     <style>
         * {
             margin: 0;
@@ -115,19 +115,21 @@
             50% { transform: translateZ(-180px) scale(1.05); }
         }
 
-        /* Постоянный заголовок */
+        /* Постоянный заголовок - ЯРКИЙ и ЗАГЛАВНЫМИ */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(15, 20, 40, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(100, 150, 255, 0.3);
-            padding: 15px 0;
+            background: rgba(10, 15, 35, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.6);
+            padding: 12px 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 10, 30, 0.5);
+            box-shadow: 
+                0 4px 25px rgba(0, 15, 40, 0.7),
+                0 0 30px rgba(255, 215, 0, 0.3);
         }
 
         .header-content {
@@ -140,46 +142,61 @@
         }
 
         .header-title {
-            font-size: 2.2em;
-            font-weight: 800;
-            background: linear-gradient(45deg, #79b8ff, #4d7fff, #8a2be2, #ff1493);
+            font-size: 2.3em;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase; /* ЗАГЛАВНЫЕ БУКВЫ */
+            background: linear-gradient(45deg, #ffd700, #ffa500, #ff4500, #ffd700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 
-                0 0 20px rgba(121, 184, 255, 0.6),
-                0 0 40px rgba(138, 43, 226, 0.4);
-            letter-spacing: 2px;
-            animation: header-glow 3s ease-in-out infinite alternate;
+                0 0 25px rgba(255, 215, 0, 0.8),
+                0 0 50px rgba(255, 165, 0, 0.7),
+                0 0 80px rgba(255, 69, 0, 0.6),
+                0 0 120px rgba(255, 215, 0, 0.9);
+            animation: header-glow 2.5s ease-in-out infinite alternate;
             position: relative;
+            text-align: center;
         }
 
         .header-title::before {
             content: '★';
-            margin-right: 10px;
-            animation: star-spin 4s linear infinite;
+            margin-right: 12px;
+            color: #ffd700;
+            animation: star-spin 3s linear infinite;
+            font-size: 1.3em;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
         }
 
         .header-title::after {
             content: '★';
-            margin-left: 10px;
-            animation: star-spin 4s linear infinite reverse;
+            margin-left: 12px;
+            color: #ffd700;
+            animation: star-spin 3s linear infinite reverse;
+            font-size: 1.3em;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
         }
 
         @keyframes star-spin {
             0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.2); }
+            50% { transform: rotate(180deg) scale(1.3); }
             100% { transform: rotate(360deg) scale(1); }
         }
 
         @keyframes header-glow {
             0% { 
-                text-shadow: 0 0 15px rgba(121, 184, 255, 0.4),
-                           0 0 30px rgba(138, 43, 226, 0.3); 
+                text-shadow: 
+                    0 0 20px rgba(255, 215, 0, 0.6),
+                    0 0 40px rgba(255, 165, 0, 0.5),
+                    0 0 70px rgba(255, 69, 0, 0.4),
+                    0 0 100px rgba(255, 215, 0, 0.7); 
             }
             100% { 
-                text-shadow: 0 0 30px rgba(121, 184, 255, 0.8),
-                            0 0 60px rgba(138, 43, 226, 0.6),
-                            0 0 90px rgba(255, 20, 147, 0.5); 
+                text-shadow: 
+                    0 0 35px rgba(255, 215, 0, 1),
+                    0 0 65px rgba(255, 165, 0, 0.9),
+                    0 0 100px rgba(255, 69, 0, 0.8),
+                    0 0 150px rgba(255, 215, 0, 1.2); 
             }
         }
 
@@ -195,23 +212,25 @@
             position: relative;
             z-index: 1;
             transform: translateZ(0);
-            padding-top: 100px; /* Отступ под заголовок */
+            padding-top: 90px; /* Отступ под заголовок */
+            padding-bottom: 30px;
         }
 
-        /* Стеклянные плашки */
+        /* Стеклянные плашки - УМЕНЬШЕНЫ */
         .glass-card {
             background: rgba(20, 25, 45, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 24px;
-            padding: 45px;
+            padding: 35px 40px; /* Уменьшено с 45px */
             width: 100%;
+            max-width: 850px;
             box-shadow: 
                 0 12px 40px rgba(0, 0, 0, 0.5),
                 0 0 30px rgba(76, 175, 80, 0.15),
                 inset 0 0 25px rgba(0, 20, 40, 0.8);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             animation: fadeIn 0.9s ease-out;
             position: relative;
             overflow: hidden;
@@ -243,8 +262,8 @@
 
         .title {
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 2.5em;
+            margin-bottom: 30px;
+            font-size: 2.3em;
             background: linear-gradient(45deg, #79b8ff, #4d7fff, #8a2be2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -271,9 +290,9 @@
         .subtitle {
             text-align: center;
             color: #ccc;
-            margin-bottom: 40px;
-            font-size: 1.25em;
-            line-height: 1.65;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            line-height: 1.6;
             text-shadow: 0 0 12px rgba(100, 150, 255, 0.3);
             max-width: 700px;
             margin-left: auto;
@@ -281,16 +300,16 @@
         }
 
         .question-number {
-            font-size: 1.25em;
+            font-size: 1.2em;
             color: #aaa;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-shadow: 0 0 8px rgba(100, 180, 255, 0.3);
         }
 
         .question-text {
-            font-size: 1.55em;
-            margin-bottom: 35px;
-            line-height: 1.5;
+            font-size: 1.45em;
+            margin-bottom: 25px;
+            line-height: 1.45;
             color: #f0f4ff;
             text-shadow: 0 0 10px rgba(80, 120, 200, 0.2);
             position: relative;
@@ -300,18 +319,18 @@
         .options-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 18px;
-            margin-bottom: 35px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .option {
-            padding: 22px 25px;
+            padding: 18px 22px;
             background: rgba(30, 40, 70, 0.65);
             border: 2px solid rgba(100, 130, 180, 0.25);
             border-radius: 16px;
             cursor: pointer;
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            font-size: 1.12em;
+            font-size: 1.08em;
             text-align: left;
             position: relative;
             overflow: hidden;
@@ -368,11 +387,11 @@
         }
 
         .feedback {
-            padding: 25px;
+            padding: 20px;
             border-radius: 16px;
-            margin-bottom: 25px;
-            font-size: 1.12em;
-            line-height: 1.65;
+            margin-bottom: 20px;
+            font-size: 1.08em;
+            line-height: 1.6;
             display: none;
             animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
@@ -407,14 +426,14 @@
         }
 
         .score-display {
-            font-size: 1.35em;
+            font-size: 1.3em;
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #a0d4ff;
             font-weight: bold;
             text-shadow: 0 0 15px rgba(160, 212, 255, 0.6);
             background: rgba(25, 40, 80, 0.6);
-            padding: 12px 28px;
+            padding: 10px 25px;
             border-radius: 22px;
             display: inline-block;
             border: 1px solid rgba(100, 150, 255, 0.3);
@@ -422,12 +441,12 @@
         }
 
         .btn {
-            padding: 18px 52px;
+            padding: 16px 48px;
             background: linear-gradient(45deg, #4d7fff, #8a2be2, #ff1493);
             color: white;
             border: none;
             border-radius: 55px;
-            font-size: 1.18em;
+            font-size: 1.15em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -435,7 +454,7 @@
                 0 10px 30px rgba(77, 127, 255, 0.45),
                 0 0 45px rgba(138, 43, 226, 0.35);
             display: block;
-            margin: 25px auto;
+            margin: 20px auto;
             width: fit-content;
             position: relative;
             overflow: hidden;
@@ -463,10 +482,10 @@
 
         .progress-bar {
             width: 100%;
-            height: 11px;
+            height: 10px;
             background: rgba(40, 60, 100, 0.7);
             border-radius: 8px;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             overflow: hidden;
             box-shadow: 
                 0 2px 12px rgba(0, 15, 40, 0.4),
@@ -501,16 +520,16 @@
 
         .result-container {
             text-align: center;
-            padding: 45px;
+            padding: 35px 20px;
         }
 
         .final-score {
-            font-size: 4.8em;
+            font-size: 4.5em;
             font-weight: 800;
             background: linear-gradient(45deg, #79b8ff, #4d7fff, #a0d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin: 25px 0;
+            margin: 20px 0;
             text-shadow: 0 0 35px rgba(121, 184, 255, 0.7);
             animation: score-glow 2.2s ease-in-out infinite alternate;
             letter-spacing: 2px;
@@ -522,112 +541,174 @@
         }
 
         .result-message {
-            font-size: 1.55em;
-            margin: 25px 0;
+            font-size: 1.5em;
+            margin: 20px 0;
             color: #a0d4ff;
             text-shadow: 0 0 18px rgba(160, 212, 255, 0.6);
-            min-height: 60px;
+            min-height: 55px;
             line-height: 1.4;
         }
 
         .stats {
             display: flex;
             justify-content: center;
-            gap: 45px;
-            margin: 40px 0;
-            font-size: 1.25em;
+            gap: 40px;
+            margin: 35px 0;
+            font-size: 1.2em;
         }
 
         .stat-item {
             text-align: center;
-            padding: 22px 15px;
+            padding: 20px 12px;
             background: rgba(30, 45, 85, 0.7);
             border-radius: 20px;
-            min-width: 115px;
+            min-width: 110px;
             border: 1px solid rgba(100, 130, 180, 0.25);
             box-shadow: 0 6px 22px rgba(0, 15, 40, 0.35);
         }
 
         .stat-number {
-            font-size: 2.4em;
+            font-size: 2.3em;
             font-weight: 800;
             background: linear-gradient(45deg, #79b8ff, #a0d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             line-height: 1;
         }
 
         .stat-label {
             color: #b0c4e0;
-            font-size: 0.95em;
+            font-size: 0.92em;
         }
 
         .hidden {
             display: none;
         }
 
-        /* Адаптивность */
+        /* Адаптивность - УЛУЧШЕНА */
         @media (max-width: 768px) {
             .header-title {
-                font-size: 1.6em;
-                letter-spacing: 1px;
+                font-size: 1.4em;
+                letter-spacing: 1.5px;
+                line-height: 1.3;
             }
             
             .header-title::before,
             .header-title::after {
-                font-size: 0.8em;
-                margin: 0 5px;
+                font-size: 1em;
+                margin: 0 6px;
             }
             
             .container {
                 padding-top: 80px;
-                padding: 20px 15px;
+                padding: 15px;
             }
             
             .glass-card {
-                padding: 32px 25px;
+                padding: 25px 20px;
+                margin-bottom: 20px;
             }
             
             .title {
-                font-size: 2.1em;
+                font-size: 1.8em;
+                margin-bottom: 25px;
+            }
+            
+            .subtitle {
+                font-size: 1.1em;
+                margin-bottom: 25px;
             }
             
             .question-text {
-                font-size: 1.3em;
+                font-size: 1.25em;
+                margin-bottom: 20px;
             }
             
             .options-container {
-                gap: 14px;
+                gap: 12px;
             }
             
             .option {
-                padding: 18px 20px;
-                font-size: 1.05em;
+                padding: 15px 18px;
+                font-size: 1em;
+            }
+            
+            .feedback {
+                font-size: 1em;
+                padding: 16px;
             }
             
             .btn {
-                width: 92%;
-                padding: 16px;
-                font-size: 1.12em;
+                width: 94%;
+                padding: 14px;
+                font-size: 1.1em;
+                margin: 18px auto;
             }
             
             .stats {
                 flex-direction: column;
-                gap: 22px;
-                font-size: 1.15em;
+                gap: 18px;
+                font-size: 1.1em;
             }
             
             .result-container {
-                padding: 35px 20px;
+                padding: 25px 15px;
             }
             
             .final-score {
-                font-size: 3.4em;
+                font-size: 3em;
             }
             
             .nebula {
-                filter: blur(40px);
+                filter: blur(35px);
+            }
+        }
+        
+        /* Для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.2em;
+                letter-spacing: 1px;
+            }
+            
+            .header {
+                padding: 10px 0;
+            }
+            
+            .container {
+                padding-top: 75px;
+            }
+            
+            .glass-card {
+                padding: 20px 15px;
+            }
+            
+            .title {
+                font-size: 1.6em;
+            }
+            
+            .question-text {
+                font-size: 1.15em;
+            }
+            
+            .option {
+                padding: 12px 15px;
+                font-size: 0.95em;
+            }
+            
+            .btn {
+                width: 96%;
+                padding: 12px;
+                font-size: 1.05em;
+            }
+            
+            .stats {
+                gap: 15px;
+            }
+            
+            .stat-number {
+                font-size: 2em;
             }
         }
         
@@ -637,16 +718,16 @@
                 background: rgba(20, 25, 45, 0.92);
             }
             .header {
-                background: rgba(15, 20, 40, 0.95);
+                background: rgba(10, 15, 35, 0.97);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Постоянный заголовок -->
+    <!-- Постоянный заголовок - ЯРКИЙ и ЗАГЛАВНЫМИ -->
     <header class="header">
         <div class="header-content">
-            <h1 class="header-title">Звёздный рубеж России</h1>
+            <h1 class="header-title">ЗВЁЗДНЫЙ РУБЕЖ РОССИИ</h1>
         </div>
     </header>
 
@@ -706,7 +787,7 @@
     </div>
 
     <script>
-        // Вопросы викторины
+        // Вопросы викторины (без изменений)
         const questions = [
             {
                 question: "Кто был первым человеком в космосе?",
@@ -946,13 +1027,8 @@
 
         // Создание 3D звёздного неба
         function createSpaceBackground() {
-            // Ближний слой - крупные яркие звёзды
             createStarsLayer('stars-layer-1', 80, 1.8, 1.0, 2, 4);
-            
-            // Средний слой - средние звёзды
             createStarsLayer('stars-layer-2', 150, 1.0, 0.75, 3, 6);
-            
-            // Дальний слой - мелкие тусклые звёзды
             createStarsLayer('stars-layer-3', 250, 0.5, 0.4, 4, 8);
         }
 
@@ -963,21 +1039,17 @@
                 const star = document.createElement('div');
                 star.className = 'star';
                 
-                // Случайный размер с учётом слоя
                 const baseSize = Math.random() * 1.8 + 0.4;
                 const size = baseSize * sizeMultiplier;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 
-                // Случайная позиция
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.top = `${Math.random() * 100}%`;
                 
-                // Случайная прозрачность для глубины
                 const opacityVar = 0.3 + Math.random() * 0.7;
                 star.style.opacity = opacityBase * opacityVar;
                 
-                // Случайная скорость мерцания
                 const duration = Math.random() * (maxDuration - minDuration) + minDuration;
                 star.style.animationDuration = `${duration}s`;
                 star.style.animationDelay = `${Math.random() * 3}s`;
@@ -1032,15 +1104,12 @@
             selectedOption = parseInt(optionElement.dataset.index);
             const question = questions[currentQuestionIndex];
             
-            // Убираем все выделения
             document.querySelectorAll('.option').forEach(opt => {
                 opt.classList.remove('selected');
             });
             
-            // Добавляем выделение к выбранному
             optionElement.classList.add('selected');
             
-            // Проверяем ответ
             if (selectedOption === question.correct) {
                 optionElement.classList.add('correct');
                 score++;
@@ -1082,7 +1151,6 @@
             correctCount.textContent = score;
             incorrectCount.textContent = questions.length - score;
             
-            // Сообщение в зависимости от результата
             if (percentageValue >= 90) {
                 resultMessage.textContent = '🚀 Космический гений! Вы настоящий эксперт в истории космонавтики!';
             } else if (percentageValue >= 70) {
