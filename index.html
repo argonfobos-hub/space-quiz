@@ -13,93 +13,106 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #0a0a1a, #0d1b2a, #1b263b);
+            background: radial-gradient(ellipse at center, #0a0e17 0%, #070a12 100%);
             color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            perspective: 1000px;
         }
 
-        /* Космический фон с эффектом глубины */
-        .space-background {
+        /* 3D звёздное небо */
+        .space-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            transform-style: preserve-3d;
             pointer-events: none;
             z-index: -2;
         }
 
-        /* Звезды разных слоев для параллакса */
         .stars-layer {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            transform-style: preserve-3d;
         }
 
-        .stars-layer-1 { transform: translateZ(0); }
-        .stars-layer-2 { transform: translateZ(0); opacity: 0.7; }
-        .stars-layer-3 { transform: translateZ(0); opacity: 0.4; }
+        /* Ближний слой звёзд - крупные, яркие */
+        .stars-layer-1 {
+            transform: translateZ(-50px);
+        }
+
+        /* Средний слой - средние звёзды */
+        .stars-layer-2 {
+            transform: translateZ(-150px);
+            opacity: 0.75;
+        }
+
+        /* Дальний слой - мелкие, тусклые звёзды */
+        .stars-layer-3 {
+            transform: translateZ(-300px);
+            opacity: 0.4;
+        }
 
         .star {
             position: absolute;
             background: radial-gradient(circle, #fff 0%, transparent 70%);
             border-radius: 50%;
-            animation: twinkle 4s infinite ease-in-out;
+            animation: twinkle 6s infinite ease-in-out;
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.1; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.3); }
         }
 
-        /* Планеты */
-        .planet {
-            position: absolute;
-            border-radius: 50%;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            animation: float 120s linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); opacity: 0; }
-        }
-
-        /* Туманности */
+        /* Туманности - мягкие облака */
         .nebula {
             position: absolute;
             border-radius: 50%;
-            filter: blur(40px);
-            opacity: 0.3;
-            animation: pulse-nebula 20s infinite ease-in-out;
+            filter: blur(60px);
+            opacity: 0.25;
+            transform-style: preserve-3d;
         }
 
-        @keyframes pulse-nebula {
-            0%, 100% { opacity: 0.2; transform: scale(0.95); }
-            50% { opacity: 0.4; transform: scale(1.05); }
+        .nebula-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(121, 40, 202, 0.6) 0%, transparent 70%);
+            top: 15%;
+            left: 10%;
+            transform: translateZ(-200px);
+            animation: nebula-float 45s ease-in-out infinite;
         }
 
-        /* Эффект полета - звездные полосы */
-        .star-trail {
-            position: absolute;
-            background: linear-gradient(90deg, transparent, #fff, transparent);
-            height: 2px;
-            border-radius: 1px;
-            animation: fly-trail 3s linear forwards;
-            opacity: 0;
+        .nebula-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.5) 0%, transparent 75%);
+            bottom: 10%;
+            right: 15%;
+            transform: translateZ(-250px);
+            animation: nebula-float 60s ease-in-out infinite reverse;
         }
 
-        @keyframes fly-trail {
-            0% { transform: translateX(-100%); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateX(100%); opacity: 0; }
+        .nebula-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255, 0, 130, 0.4) 0%, transparent 80%);
+            top: 50%;
+            right: 25%;
+            transform: translateZ(-180px);
+            animation: nebula-float 55s ease-in-out infinite alternate;
+        }
+
+        @keyframes nebula-float {
+            0%, 100% { transform: translateZ(-200px) scale(1); }
+            50% { transform: translateZ(-180px) scale(1.05); }
         }
 
         .container {
@@ -113,22 +126,24 @@
             align-items: center;
             position: relative;
             z-index: 1;
+            transform: translateZ(0);
         }
 
         /* Стеклянные плашки */
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 25px;
-            padding: 50px;
+            background: rgba(20, 25, 45, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 45px;
             width: 100%;
             box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(128, 0, 255, 0.2),
-                inset 0 0 20px rgba(255, 255, 255, 0.1);
+                0 12px 40px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(76, 175, 80, 0.15),
+                inset 0 0 25px rgba(0, 20, 40, 0.8);
             margin-bottom: 30px;
-            animation: fadeIn 1s ease-out;
+            animation: fadeIn 0.9s ease-out;
             position: relative;
             overflow: hidden;
         }
@@ -136,28 +151,20 @@
         .glass-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle at center,
-                rgba(255, 255, 255, 0.05) 0%,
-                transparent 70%
-            );
-            animation: rotate 30s linear infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(121, 40, 202, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 210, 255, 0.07) 0%, transparent 45%);
             z-index: -1;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         @keyframes fadeIn {
             from { 
                 opacity: 0; 
-                transform: translateY(30px) scale(0.95); 
+                transform: translateY(25px) scale(0.97); 
             }
             to { 
                 opacity: 1; 
@@ -168,27 +175,27 @@
         .title {
             text-align: center;
             margin-bottom: 40px;
-            font-size: 2.8em;
-            background: linear-gradient(45deg, #ff00ff, #7928ca, #00d2ff, #00ffcc);
+            font-size: 2.7em;
+            background: linear-gradient(45deg, #79b8ff, #4d7fff, #8a2be2, #ff1493);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 
-                0 0 20px rgba(255, 0, 255, 0.5),
-                0 0 40px rgba(121, 40, 202, 0.3);
-            animation: glow-title 3s ease-in-out infinite alternate;
+                0 0 25px rgba(121, 184, 255, 0.6),
+                0 0 45px rgba(138, 43, 226, 0.4);
+            animation: glow-title 3.5s ease-in-out infinite alternate;
+            letter-spacing: 1.5px;
             position: relative;
-            letter-spacing: 2px;
         }
 
         @keyframes glow-title {
             0% { 
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
-                           0 0 20px rgba(255, 0, 255, 0.4); 
+                text-shadow: 0 0 15px rgba(121, 184, 255, 0.4),
+                           0 0 30px rgba(138, 43, 226, 0.3); 
             }
             100% { 
-                text-shadow: 0 0 30px rgba(255, 255, 255, 0.6),
-                            0 0 60px rgba(255, 0, 255, 0.8),
-                            0 0 90px rgba(121, 40, 202, 0.6); 
+                text-shadow: 0 0 35px rgba(121, 184, 255, 0.8),
+                            0 0 65px rgba(138, 43, 226, 0.6),
+                            0 0 95px rgba(255, 20, 147, 0.5); 
             }
         }
 
@@ -196,24 +203,27 @@
             text-align: center;
             color: #ccc;
             margin-bottom: 40px;
-            font-size: 1.3em;
-            line-height: 1.6;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            font-size: 1.25em;
+            line-height: 1.65;
+            text-shadow: 0 0 12px rgba(100, 150, 255, 0.3);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .question-number {
-            font-size: 1.3em;
+            font-size: 1.25em;
             color: #aaa;
             margin-bottom: 15px;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 8px rgba(100, 180, 255, 0.3);
         }
 
         .question-text {
-            font-size: 1.6em;
+            font-size: 1.55em;
             margin-bottom: 35px;
             line-height: 1.5;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            color: #f0f4ff;
+            text-shadow: 0 0 10px rgba(80, 120, 200, 0.2);
             position: relative;
             z-index: 1;
         }
@@ -226,100 +236,84 @@
         }
 
         .option {
-            padding: 22px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 2px solid rgba(255, 255, 255, 0.12);
-            border-radius: 15px;
+            padding: 22px 25px;
+            background: rgba(30, 40, 70, 0.65);
+            border: 2px solid rgba(100, 130, 180, 0.25);
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 1.15em;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 1.12em;
             text-align: left;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .option:hover::before {
-            left: 100%;
+            box-shadow: 0 5px 18px rgba(0, 10, 30, 0.35);
         }
 
         .option:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateX(8px) scale(1.02);
+            background: rgba(45, 60, 100, 0.8);
+            border-color: rgba(120, 160, 220, 0.45);
+            transform: translateX(6px);
             box-shadow: 
-                0 6px 20px rgba(0, 0, 0, 0.3),
-                0 0 25px rgba(128, 0, 255, 0.3);
+                0 7px 22px rgba(0, 15, 40, 0.45),
+                0 0 25px rgba(100, 150, 255, 0.25);
         }
 
         .option.selected {
-            background: rgba(76, 175, 80, 0.25);
-            border-color: #4caf50;
+            background: rgba(40, 75, 40, 0.85);
+            border-color: rgba(76, 175, 80, 0.6);
             box-shadow: 
-                0 0 30px rgba(76, 175, 80, 0.6),
-                inset 0 0 15px rgba(255, 255, 255, 0.2);
+                0 0 35px rgba(76, 175, 80, 0.5),
+                inset 0 0 15px rgba(150, 220, 150, 0.2);
         }
 
         .option.correct {
-            background: rgba(76, 175, 80, 0.35);
-            border-color: #4caf50;
+            background: rgba(35, 80, 35, 0.9);
+            border-color: rgba(76, 175, 80, 0.8);
             box-shadow: 
-                0 0 40px rgba(76, 175, 80, 0.8),
-                inset 0 0 20px rgba(255, 255, 255, 0.3);
-            animation: pulse 0.6s ease-out;
+                0 0 45px rgba(76, 175, 80, 0.7),
+                inset 0 0 25px rgba(180, 240, 180, 0.3);
+            animation: pulse 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .option.incorrect {
-            background: rgba(244, 67, 54, 0.3);
-            border-color: #f44336;
+            background: rgba(90, 35, 35, 0.85);
+            border-color: rgba(244, 67, 54, 0.7);
             box-shadow: 
-                0 0 40px rgba(244, 67, 54, 0.7),
-                inset 0 0 20px rgba(255, 255, 255, 0.2);
-            animation: shake 0.6s ease-out;
+                0 0 45px rgba(244, 67, 54, 0.6),
+                inset 0 0 25px rgba(255, 150, 150, 0.25);
+            animation: shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+            50% { transform: scale(1.06); }
             100% { transform: scale(1); }
         }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0) rotate(0deg); }
-            20% { transform: translateX(-12px) rotate(-3deg); }
-            40% { transform: translateX(12px) rotate(3deg); }
-            60% { transform: translateX(-8px) rotate(-2deg); }
-            80% { transform: translateX(8px) rotate(2deg); }
+            20% { transform: translateX(-10px) rotate(-2deg); }
+            40% { transform: translateX(10px) rotate(2deg); }
+            60% { transform: translateX(-6px) rotate(-1.5deg); }
+            80% { transform: translateX(6px) rotate(1.5deg); }
         }
 
         .feedback {
             padding: 25px;
-            border-radius: 15px;
+            border-radius: 16px;
             margin-bottom: 25px;
-            font-size: 1.15em;
-            line-height: 1.7;
+            font-size: 1.12em;
+            line-height: 1.65;
             display: none;
-            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
-            border-left-width: 6px;
-            border-left-style: solid;
+            border-left: 5px solid transparent;
         }
 
         @keyframes slideUp {
             from { 
                 opacity: 0; 
-                transform: translateY(30px);
+                transform: translateY(25px);
             }
             to { 
                 opacity: 1; 
@@ -328,75 +322,63 @@
         }
 
         .feedback.correct {
-            background: rgba(76, 175, 80, 0.18);
+            background: rgba(30, 55, 30, 0.8);
             border-left-color: #4caf50;
             display: block;
-            box-shadow: 0 0 25px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 0 30px rgba(76, 175, 80, 0.45);
+            color: #e0f0e0;
         }
 
         .feedback.incorrect {
-            background: rgba(244, 67, 54, 0.18);
+            background: rgba(60, 30, 30, 0.8);
             border-left-color: #f44336;
             display: block;
-            box-shadow: 0 0 25px rgba(244, 67, 54, 0.4);
+            box-shadow: 0 0 30px rgba(244, 67, 54, 0.45);
+            color: #ffe0e0;
         }
 
         .score-display {
-            font-size: 1.4em;
+            font-size: 1.35em;
             text-align: center;
             margin-bottom: 25px;
-            color: #ffd700;
+            color: #a0d4ff;
             font-weight: bold;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 25px;
-            border-radius: 20px;
+            text-shadow: 0 0 15px rgba(160, 212, 255, 0.6);
+            background: rgba(25, 40, 80, 0.6);
+            padding: 12px 28px;
+            border-radius: 22px;
             display: inline-block;
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            letter-spacing: 1px;
         }
 
         .btn {
-            padding: 18px 50px;
-            background: linear-gradient(45deg, #ff0080, #7928ca, #00d2ff);
+            padding: 18px 52px;
+            background: linear-gradient(45deg, #4d7fff, #8a2be2, #ff1493);
             color: white;
             border: none;
-            border-radius: 60px;
-            font-size: 1.2em;
-            font-weight: bold;
+            border-radius: 55px;
+            font-size: 1.18em;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             box-shadow: 
-                0 8px 25px rgba(255, 0, 128, 0.5),
-                0 0 40px rgba(121, 40, 202, 0.4);
+                0 10px 30px rgba(77, 127, 255, 0.45),
+                0 0 45px rgba(138, 43, 226, 0.35);
             display: block;
             margin: 25px auto;
             width: fit-content;
             position: relative;
             overflow: hidden;
-            letter-spacing: 1px;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.7s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            letter-spacing: 1.2px;
         }
 
         .btn:hover {
-            transform: translateY(-5px) scale(1.05);
+            transform: translateY(-4px) scale(1.04);
             box-shadow: 
-                0 12px 35px rgba(255, 0, 128, 0.7),
-                0 0 60px rgba(121, 40, 202, 0.6),
-                0 0 80px rgba(0, 210, 255, 0.5);
+                0 14px 40px rgba(77, 127, 255, 0.65),
+                0 0 65px rgba(138, 43, 226, 0.55),
+                0 0 85px rgba(255, 20, 147, 0.4);
         }
 
         .btn:active {
@@ -404,44 +386,30 @@
         }
 
         .btn:disabled {
-            background: linear-gradient(45deg, #555, #444);
+            background: linear-gradient(45deg, #3a4a6b, #313a52);
             cursor: not-allowed;
             transform: none;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 10, 30, 0.4);
         }
 
         .progress-bar {
             width: 100%;
-            height: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            height: 11px;
+            background: rgba(40, 60, 100, 0.7);
+            border-radius: 8px;
             margin-bottom: 35px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 2px 12px rgba(0, 15, 40, 0.4),
+                inset 0 0 8px rgba(100, 150, 255, 0.2);
             position: relative;
-        }
-
-        .progress-bar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
         }
 
         .progress {
             height: 100%;
-            background: linear-gradient(90deg, #ff0080, #7928ca, #00d2ff);
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 10px;
+            background: linear-gradient(90deg, #4d7fff, #8a2be2, #ff1493);
+            transition: width 0.9s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
         }
@@ -453,73 +421,76 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: pulse-progress 2s infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            animation: progress-shine 3s infinite;
         }
 
-        @keyframes pulse-progress {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+        @keyframes progress-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .result-container {
             text-align: center;
-            padding: 50px;
+            padding: 45px;
         }
 
         .final-score {
-            font-size: 5em;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ffd700, #ffa500, #ff4500);
+            font-size: 4.8em;
+            font-weight: 800;
+            background: linear-gradient(45deg, #79b8ff, #4d7fff, #a0d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 25px 0;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
-            animation: score-glow 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 35px rgba(121, 184, 255, 0.7);
+            animation: score-glow 2.2s ease-in-out infinite alternate;
+            letter-spacing: 2px;
         }
 
         @keyframes score-glow {
-            0% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-            100% { text-shadow: 0 0 50px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 165, 0, 0.7); }
+            0% { text-shadow: 0 0 20px rgba(121, 184, 255, 0.5); }
+            100% { text-shadow: 0 0 50px rgba(121, 184, 255, 0.9), 0 0 80px rgba(77, 127, 255, 0.7); }
         }
 
         .result-message {
-            font-size: 1.6em;
+            font-size: 1.55em;
             margin: 25px 0;
-            color: #ffd700;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            color: #a0d4ff;
+            text-shadow: 0 0 18px rgba(160, 212, 255, 0.6);
             min-height: 60px;
+            line-height: 1.4;
         }
 
         .stats {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 45px;
             margin: 40px 0;
-            font-size: 1.3em;
+            font-size: 1.25em;
         }
 
         .stat-item {
             text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 22px 15px;
+            background: rgba(30, 45, 85, 0.7);
             border-radius: 20px;
-            min-width: 120px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            min-width: 115px;
+            border: 1px solid rgba(100, 130, 180, 0.25);
+            box-shadow: 0 6px 22px rgba(0, 15, 40, 0.35);
         }
 
         .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ffd700, #ffa500);
+            font-size: 2.4em;
+            font-weight: 800;
+            background: linear-gradient(45deg, #79b8ff, #a0d4ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            line-height: 1;
         }
 
         .stat-label {
-            color: #bbb;
+            color: #b0c4e0;
             font-size: 0.95em;
         }
 
@@ -530,11 +501,11 @@
         /* Адаптивность */
         @media (max-width: 768px) {
             .glass-card {
-                padding: 30px 25px;
+                padding: 32px 25px;
             }
             
             .title {
-                font-size: 2em;
+                font-size: 2.1em;
             }
             
             .question-text {
@@ -542,55 +513,63 @@
             }
             
             .options-container {
-                grid-template-columns: 1fr;
-                gap: 12px;
+                gap: 14px;
             }
             
             .option {
-                padding: 16px;
-                font-size: 1em;
+                padding: 18px 20px;
+                font-size: 1.05em;
             }
             
             .btn {
-                width: 90%;
-                padding: 14px;
-                font-size: 1.1em;
+                width: 92%;
+                padding: 16px;
+                font-size: 1.12em;
             }
             
             .stats {
                 flex-direction: column;
-                gap: 20px;
+                gap: 22px;
+                font-size: 1.15em;
             }
             
             .result-container {
-                padding: 30px 20px;
+                padding: 35px 20px;
             }
             
             .final-score {
-                font-size: 3.5em;
+                font-size: 3.4em;
+            }
+            
+            .nebula {
+                filter: blur(40px);
+            }
+        }
+        
+        /* Поддержка backdrop-filter для старых браузеров */
+        @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+            .glass-card {
+                background: rgba(20, 25, 45, 0.92);
             }
         }
     </style>
 </head>
 <body>
-    <div class="space-background">
+    <div class="space-container">
         <div class="stars-layer stars-layer-1" id="stars-layer-1"></div>
         <div class="stars-layer stars-layer-2" id="stars-layer-2"></div>
         <div class="stars-layer stars-layer-3" id="stars-layer-3"></div>
-        <div class="nebula nebula-1" style="width: 300px; height: 300px; background: radial-gradient(circle, #7928ca 0%, transparent 70%); top: 15%; left: 10%;"></div>
-        <div class="nebula nebula-2" style="width: 400px; height: 400px; background: radial-gradient(circle, #00d2ff 0%, transparent 70%); top: 70%; left: 80%;"></div>
-        <div class="nebula nebula-3" style="width: 250px; height: 250px; background: radial-gradient(circle, #ff0080 0%, transparent 70%); top: 40%; left: 60%;"></div>
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
     </div>
 
     <div class="container">
         <!-- Начальный экран -->
         <div id="start-screen" class="glass-card">
-            <h1 class="title">🚀 Космическая Викторина</h1>
-            <p class="subtitle">Погрузитесь в удивительный мир космоса и проверьте свои знания о великих достижениях русских в освоении Вселенной</p>
-            <p style="text-align: center; margin-bottom: 35px; line-height: 1.7; color: #ddd;">
-                Ответьте на 15 вопросов об истории российской космонавтики и узнайте, насколько хорошо вы знаете нашу космическую историю!
-            </p>
-            <button id="start-btn" class="btn">🚀 Начать викторину</button>
+            <h1 class="title">🌌 Космическая Викторина</h1>
+            <p class="subtitle">Погрузитесь в безграничные глубины Вселенной и проверьте свои знания о великих достижениях русских в освоении космоса</p>
+            <button id="start-btn" class="btn">🚀 Начать путешествие</button>
         </div>
 
         <!-- Экран вопросов -->
@@ -603,36 +582,36 @@
             <div class="question-text" id="question-text"></div>
             <div class="options-container" id="options-container"></div>
             <div class="feedback" id="feedback"></div>
-            <button id="next-btn" class="btn" disabled>➡️ Далее</button>
+            <button id="next-btn" class="btn" disabled>Далее ➡️</button>
         </div>
 
         <!-- Экран результатов -->
         <div id="result-screen" class="glass-card hidden">
             <div class="result-container">
-                <h1 class="title">🎉 Викторина завершена!</h1>
+                <h1 class="title">🌠 Путешествие завершено!</h1>
                 <div class="final-score" id="final-score">0/15</div>
                 <div class="result-message" id="result-message"></div>
                 <div class="stats">
                     <div class="stat-item">
                         <div class="stat-number" id="correct-count">0</div>
-                        <div class="stat-label">✅ Правильных</div>
+                        <div class="stat-label">✅ Верно</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number" id="incorrect-count">0</div>
-                        <div class="stat-label">❌ Неправильных</div>
+                        <div class="stat-label">❌ Ошибок</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number" id="percentage">0%</div>
-                        <div class="stat-label">🎯 Точность</div>
+                        <div class="stat-label">📊 Точность</div>
                     </div>
                 </div>
-                <button id="restart-btn" class="btn">🔄 Начать заново</button>
+                <button id="restart-btn" class="btn">🔄 Новое путешествие</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Вопросы викторины (без изменений)
+        // Вопросы викторины
         const questions = [
             {
                 question: "Кто был первым человеком в космосе?",
@@ -850,7 +829,6 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let selectedOption = null;
-        let answeredCorrectly = [];
 
         // DOM элементы
         const startScreen = document.getElementById('start-screen');
@@ -871,29 +849,27 @@
         const incorrectCount = document.getElementById('incorrect-count');
         const percentage = document.getElementById('percentage');
 
-        // Создание космического фона
+        // Создание 3D звёздного неба
         function createSpaceBackground() {
-            // Создание звезд на разных слоях
-            createStarsLayer('stars-layer-1', 150, 1, 3);
-            createStarsLayer('stars-layer-2', 100, 0.5, 5);
-            createStarsLayer('stars-layer-3', 80, 0.3, 8);
+            // Ближний слой - крупные яркие звёзды
+            createStarsLayer('stars-layer-1', 80, 1.8, 1.0, 2, 4);
             
-            // Создание планет
-            createPlanets();
+            // Средний слой - средние звёзды
+            createStarsLayer('stars-layer-2', 150, 1.0, 0.75, 3, 6);
             
-            // Создание звездных полос для эффекта движения
-            setInterval(createStarTrail, 100);
+            // Дальний слой - мелкие тусклые звёзды
+            createStarsLayer('stars-layer-3', 250, 0.5, 0.4, 4, 8);
         }
 
-        function createStarsLayer(layerId, count, sizeMultiplier, speedMultiplier) {
+        function createStarsLayer(layerId, count, sizeMultiplier, opacityBase, minDuration, maxDuration) {
             const layer = document.getElementById(layerId);
             
             for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 
-                // Случайный размер
-                const baseSize = Math.random() * 2 + 0.5;
+                // Случайный размер с учётом слоя
+                const baseSize = Math.random() * 1.8 + 0.4;
                 const size = baseSize * sizeMultiplier;
                 star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
@@ -902,64 +878,17 @@
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.top = `${Math.random() * 100}%`;
                 
+                // Случайная прозрачность для глубины
+                const opacityVar = 0.3 + Math.random() * 0.7;
+                star.style.opacity = opacityBase * opacityVar;
+                
                 // Случайная скорость мерцания
-                const duration = Math.random() * 3 + 2;
-                star.style.animationDuration = `${duration * speedMultiplier}s`;
-                star.style.animationDelay = `${Math.random() * 2}s`;
+                const duration = Math.random() * (maxDuration - minDuration) + minDuration;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
                 
                 layer.appendChild(star);
             }
-        }
-
-        function createPlanets() {
-            const planetsData = [
-                { size: 60, color: '#8e44ad', top: '20%', left: '15%', tx: '300px', ty: '-150px' },
-                { size: 45, color: '#3498db', top: '65%', left: '85%', tx: '-250px', ty: '-100px' },
-                { size: 35, color: '#e74c3c', top: '45%', left: '70%', tx: '-180px', ty: '120px' },
-                { size: 50, color: '#f39c12', top: '30%', left: '40%', tx: '200px', ty: '150px' },
-                { size: 28, color: '#2ecc71', top: '55%', left: '25%', tx: '-220px', ty: '-80px' },
-                { size: 40, color: '#9b59b6', top: '75%', left: '55%', tx: '150px', ty: '-200px' }
-            ];
-
-            const spaceBg = document.querySelector('.space-background');
-
-            planetsData.forEach(planet => {
-                const el = document.createElement('div');
-                el.className = 'planet';
-                el.style.width = `${planet.size}px`;
-                el.style.height = `${planet.size}px`;
-                el.style.backgroundColor = planet.color;
-                el.style.top = planet.top;
-                el.style.left = planet.left;
-                el.style.setProperty('--tx', planet.tx);
-                el.style.setProperty('--ty', planet.ty);
-                el.style.animationDuration = `${Math.random() * 60 + 90}s`;
-                el.style.animationDelay = `${Math.random() * 10}s`;
-                spaceBg.appendChild(el);
-            });
-        }
-
-        function createStarTrail() {
-            const trail = document.createElement('div');
-            trail.className = 'star-trail';
-            
-            // Случайная позиция по вертикали
-            const top = Math.random() * 100;
-            trail.style.top = `${top}%`;
-            
-            // Случайная длина
-            const width = Math.random() * 100 + 50;
-            trail.style.width = `${width}px`;
-            
-            // Случайная задержка
-            trail.style.animationDelay = `${Math.random() * 0.5}s`;
-            
-            document.body.appendChild(trail);
-            
-            // Удаляем элемент после анимации
-            setTimeout(() => {
-                trail.remove();
-            }, 3100);
         }
 
         // Инициализация викторины
@@ -1023,13 +952,11 @@
                 scoreDisplay.textContent = `Счет: ${score}`;
                 feedback.textContent = question.facts.correct;
                 feedback.className = 'feedback correct';
-                answeredCorrectly.push(true);
             } else {
                 optionElement.classList.add('incorrect');
                 document.querySelector(`.option[data-index="${question.correct}"]`).classList.add('correct');
                 feedback.textContent = question.facts.incorrect;
                 feedback.className = 'feedback incorrect';
-                answeredCorrectly.push(false);
             }
             
             feedback.style.display = 'block';
@@ -1077,7 +1004,6 @@
             currentQuestionIndex = 0;
             score = 0;
             selectedOption = null;
-            answeredCorrectly = [];
             
             resultScreen.classList.add('hidden');
             startScreen.classList.remove('hidden');
