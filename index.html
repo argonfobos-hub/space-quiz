@@ -13,34 +13,93 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #0c0c1d, #1a1a2e, #16213e);
+            background: linear-gradient(to bottom, #0a0a1a, #0d1b2a, #1b263b);
             color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Звездное небо */
-        .stars {
+        /* Космический фон с эффектом глубины */
+        .space-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -1;
+            z-index: -2;
         }
+
+        /* Звезды разных слоев для параллакса */
+        .stars-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .stars-layer-1 { transform: translateZ(0); }
+        .stars-layer-2 { transform: translateZ(0); opacity: 0.7; }
+        .stars-layer-3 { transform: translateZ(0); opacity: 0.4; }
 
         .star {
             position: absolute;
-            background-color: #fff;
+            background: radial-gradient(circle, #fff 0%, transparent 70%);
             border-radius: 50%;
-            animation: twinkle 3s infinite;
+            animation: twinkle 4s infinite ease-in-out;
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.1; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Планеты */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            animation: float 120s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); opacity: 0; }
+        }
+
+        /* Туманности */
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.3;
+            animation: pulse-nebula 20s infinite ease-in-out;
+        }
+
+        @keyframes pulse-nebula {
+            0%, 100% { opacity: 0.2; transform: scale(0.95); }
+            50% { opacity: 0.4; transform: scale(1.05); }
+        }
+
+        /* Эффект полета - звездные полосы */
+        .star-trail {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            height: 2px;
+            border-radius: 1px;
+            animation: fly-trail 3s linear forwards;
+            opacity: 0;
+        }
+
+        @keyframes fly-trail {
+            0% { transform: translateX(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
         }
 
         .container {
@@ -52,310 +111,486 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
 
         /* Стеклянные плашки */
         .glass-card {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 50px;
             width: 100%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            animation: fadeIn 0.8s ease-in;
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(128, 0, 255, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at center,
+                rgba(255, 255, 255, 0.05) 0%,
+                transparent 70%
+            );
+            animation: rotate 30s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
         }
 
         .title {
             text-align: center;
             margin-bottom: 40px;
-            font-size: 2.5em;
-            background: linear-gradient(45deg, #ff0080, #7928ca, #00d2ff);
+            font-size: 2.8em;
+            background: linear-gradient(45deg, #ff00ff, #7928ca, #00d2ff, #00ffcc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            animation: glow 2s ease-in-out infinite alternate;
+            text-shadow: 
+                0 0 20px rgba(255, 0, 255, 0.5),
+                0 0 40px rgba(121, 40, 202, 0.3);
+            animation: glow-title 3s ease-in-out infinite alternate;
+            position: relative;
+            letter-spacing: 2px;
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
-            to { text-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+        @keyframes glow-title {
+            0% { 
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                           0 0 20px rgba(255, 0, 255, 0.4); 
+            }
+            100% { 
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.6),
+                            0 0 60px rgba(255, 0, 255, 0.8),
+                            0 0 90px rgba(121, 40, 202, 0.6); 
+            }
         }
 
         .subtitle {
             text-align: center;
-            color: #aaa;
-            margin-bottom: 30px;
-            font-size: 1.2em;
+            color: #ccc;
+            margin-bottom: 40px;
+            font-size: 1.3em;
+            line-height: 1.6;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
         .question-number {
-            font-size: 1.2em;
-            color: #888;
-            margin-bottom: 10px;
+            font-size: 1.3em;
+            color: #aaa;
+            margin-bottom: 15px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
         }
 
         .question-text {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-            line-height: 1.4;
+            font-size: 1.6em;
+            margin-bottom: 35px;
+            line-height: 1.5;
             color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .options-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 18px;
+            margin-bottom: 35px;
         }
 
         .option {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            padding: 22px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.1em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.15em;
             text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .option:hover::before {
+            left: 100%;
         }
 
         .option:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.3);
-            transform: translateX(5px);
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.3),
+                0 0 25px rgba(128, 0, 255, 0.3);
         }
 
         .option.selected {
-            background: rgba(76, 175, 80, 0.2);
+            background: rgba(76, 175, 80, 0.25);
             border-color: #4caf50;
-            box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+            box-shadow: 
+                0 0 30px rgba(76, 175, 80, 0.6),
+                inset 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         .option.correct {
-            background: rgba(76, 175, 80, 0.3);
+            background: rgba(76, 175, 80, 0.35);
             border-color: #4caf50;
-            animation: pulse 0.5s ease;
+            box-shadow: 
+                0 0 40px rgba(76, 175, 80, 0.8),
+                inset 0 0 20px rgba(255, 255, 255, 0.3);
+            animation: pulse 0.6s ease-out;
         }
 
         .option.incorrect {
             background: rgba(244, 67, 54, 0.3);
             border-color: #f44336;
-            animation: shake 0.5s ease;
+            box-shadow: 
+                0 0 40px rgba(244, 67, 54, 0.7),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: shake 0.6s ease-out;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.08); }
             100% { transform: scale(1); }
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            20% { transform: translateX(-12px) rotate(-3deg); }
+            40% { transform: translateX(12px) rotate(3deg); }
+            60% { transform: translateX(-8px) rotate(-2deg); }
+            80% { transform: translateX(8px) rotate(2deg); }
         }
 
         .feedback {
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 1.1em;
-            line-height: 1.6;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            font-size: 1.15em;
+            line-height: 1.7;
             display: none;
-            animation: slideUp 0.5s ease;
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border-left-width: 6px;
+            border-left-style: solid;
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
         }
 
         .feedback.correct {
-            background: rgba(76, 175, 80, 0.15);
-            border-left: 5px solid #4caf50;
+            background: rgba(76, 175, 80, 0.18);
+            border-left-color: #4caf50;
             display: block;
+            box-shadow: 0 0 25px rgba(76, 175, 80, 0.4);
         }
 
         .feedback.incorrect {
-            background: rgba(244, 67, 54, 0.15);
-            border-left: 5px solid #f44336;
+            background: rgba(244, 67, 54, 0.18);
+            border-left-color: #f44336;
             display: block;
+            box-shadow: 0 0 25px rgba(244, 67, 54, 0.4);
         }
 
         .score-display {
-            font-size: 1.3em;
+            font-size: 1.4em;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #ffd700;
             font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 25px;
+            border-radius: 20px;
+            display: inline-block;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
 
         .btn {
-            padding: 15px 40px;
-            background: linear-gradient(45deg, #ff0080, #7928ca);
+            padding: 18px 50px;
+            background: linear-gradient(45deg, #ff0080, #7928ca, #00d2ff);
             color: white;
             border: none;
-            border-radius: 50px;
-            font-size: 1.1em;
+            border-radius: 60px;
+            font-size: 1.2em;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 0, 128, 0.4);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 8px 25px rgba(255, 0, 128, 0.5),
+                0 0 40px rgba(121, 40, 202, 0.4);
             display: block;
-            margin: 20px auto;
+            margin: 25px auto;
             width: fit-content;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 0, 128, 0.6);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 12px 35px rgba(255, 0, 128, 0.7),
+                0 0 60px rgba(121, 40, 202, 0.6),
+                0 0 80px rgba(0, 210, 255, 0.5);
         }
 
         .btn:active {
-            transform: translateY(1px);
+            transform: translateY(2px) scale(0.98);
         }
 
         .btn:disabled {
-            background: #666;
+            background: linear-gradient(45deg, #555, #444);
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .progress-bar {
             width: 100%;
-            height: 10px;
+            height: 12px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            margin-bottom: 30px;
+            border-radius: 10px;
+            margin-bottom: 35px;
             overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .progress {
             height: 100%;
-            background: linear-gradient(90deg, #ff0080, #7928ca);
-            transition: width 0.5s ease;
-            border-radius: 5px;
+            background: linear-gradient(90deg, #ff0080, #7928ca, #00d2ff);
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: pulse-progress 2s infinite;
+        }
+
+        @keyframes pulse-progress {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         .result-container {
             text-align: center;
-            padding: 40px;
+            padding: 50px;
         }
 
         .final-score {
-            font-size: 4em;
+            font-size: 5em;
             font-weight: bold;
-            background: linear-gradient(45deg, #ffd700, #ffa500);
+            background: linear-gradient(45deg, #ffd700, #ffa500, #ff4500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin: 20px 0;
+            margin: 25px 0;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+            animation: score-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes score-glow {
+            0% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            100% { text-shadow: 0 0 50px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 165, 0, 0.7); }
         }
 
         .result-message {
-            font-size: 1.5em;
-            margin: 20px 0;
+            font-size: 1.6em;
+            margin: 25px 0;
             color: #ffd700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            min-height: 60px;
         }
 
         .stats {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin: 30px 0;
-            font-size: 1.2em;
+            gap: 50px;
+            margin: 40px 0;
+            font-size: 1.3em;
         }
 
         .stat-item {
             text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            min-width: 120px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
         .stat-number {
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: bold;
-            color: #ffd700;
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
         }
 
         .stat-label {
-            color: #aaa;
-            font-size: 0.9em;
+            color: #bbb;
+            font-size: 0.95em;
         }
 
         .hidden {
             display: none;
         }
 
-        /* Ракета */
-        .rocket {
-            position: absolute;
-            width: 50px;
-            height: 80px;
-            animation: fly 15s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes fly {
-            0% { transform: translate(-100px, 100vh) rotate(45deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translate(calc(100vw + 100px), -100px) rotate(45deg); opacity: 0; }
-        }
-
         /* Адаптивность */
         @media (max-width: 768px) {
             .glass-card {
-                padding: 25px;
+                padding: 30px 25px;
             }
             
             .title {
-                font-size: 1.8em;
+                font-size: 2em;
             }
             
             .question-text {
-                font-size: 1.2em;
+                font-size: 1.3em;
             }
             
             .options-container {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .option {
+                padding: 16px;
+                font-size: 1em;
             }
             
             .btn {
-                width: 100%;
-                padding: 12px;
+                width: 90%;
+                padding: 14px;
+                font-size: 1.1em;
             }
             
             .stats {
                 flex-direction: column;
-                gap: 15px;
+                gap: 20px;
+            }
+            
+            .result-container {
+                padding: 30px 20px;
+            }
+            
+            .final-score {
+                font-size: 3.5em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    <div class="rocket">
-        <svg viewBox="0 0 100 200">
-            <path d="M50 0 L70 60 L60 80 L70 120 L50 150 L30 120 L40 80 L30 60 Z" fill="#ff0080"/>
-            <path d="M45 150 L55 150 L55 180 L50 200 L45 180 Z" fill="#7928ca"/>
-            <circle cx="50" cy="40" r="8" fill="#ffd700"/>
-        </svg>
+    <div class="space-background">
+        <div class="stars-layer stars-layer-1" id="stars-layer-1"></div>
+        <div class="stars-layer stars-layer-2" id="stars-layer-2"></div>
+        <div class="stars-layer stars-layer-3" id="stars-layer-3"></div>
+        <div class="nebula nebula-1" style="width: 300px; height: 300px; background: radial-gradient(circle, #7928ca 0%, transparent 70%); top: 15%; left: 10%;"></div>
+        <div class="nebula nebula-2" style="width: 400px; height: 400px; background: radial-gradient(circle, #00d2ff 0%, transparent 70%); top: 70%; left: 80%;"></div>
+        <div class="nebula nebula-3" style="width: 250px; height: 250px; background: radial-gradient(circle, #ff0080 0%, transparent 70%); top: 40%; left: 60%;"></div>
     </div>
 
     <div class="container">
         <!-- Начальный экран -->
         <div id="start-screen" class="glass-card">
             <h1 class="title">🚀 Космическая Викторина</h1>
-            <p class="subtitle">Проверьте свои знания о великих достижениях русских в освоении космоса</p>
-            <p style="text-align: center; margin-bottom: 30px; line-height: 1.6;">
+            <p class="subtitle">Погрузитесь в удивительный мир космоса и проверьте свои знания о великих достижениях русских в освоении Вселенной</p>
+            <p style="text-align: center; margin-bottom: 35px; line-height: 1.7; color: #ddd;">
                 Ответьте на 15 вопросов об истории российской космонавтики и узнайте, насколько хорошо вы знаете нашу космическую историю!
             </p>
-            <button id="start-btn" class="btn">Начать викторину</button>
+            <button id="start-btn" class="btn">🚀 Начать викторину</button>
         </div>
 
         <!-- Экран вопросов -->
@@ -368,7 +603,7 @@
             <div class="question-text" id="question-text"></div>
             <div class="options-container" id="options-container"></div>
             <div class="feedback" id="feedback"></div>
-            <button id="next-btn" class="btn" disabled>Далее</button>
+            <button id="next-btn" class="btn" disabled>➡️ Далее</button>
         </div>
 
         <!-- Экран результатов -->
@@ -380,24 +615,24 @@
                 <div class="stats">
                     <div class="stat-item">
                         <div class="stat-number" id="correct-count">0</div>
-                        <div class="stat-label">Правильных</div>
+                        <div class="stat-label">✅ Правильных</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number" id="incorrect-count">0</div>
-                        <div class="stat-label">Неправильных</div>
+                        <div class="stat-label">❌ Неправильных</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number" id="percentage">0%</div>
-                        <div class="stat-label">Точность</div>
+                        <div class="stat-label">🎯 Точность</div>
                     </div>
                 </div>
-                <button id="restart-btn" class="btn">Начать заново</button>
+                <button id="restart-btn" class="btn">🔄 Начать заново</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Вопросы викторины
+        // Вопросы викторины (без изменений)
         const questions = [
             {
                 question: "Кто был первым человеком в космосе?",
@@ -636,25 +871,100 @@
         const incorrectCount = document.getElementById('incorrect-count');
         const percentage = document.getElementById('percentage');
 
-        // Создание звёздного неба
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 200; i++) {
+        // Создание космического фона
+        function createSpaceBackground() {
+            // Создание звезд на разных слоях
+            createStarsLayer('stars-layer-1', 150, 1, 3);
+            createStarsLayer('stars-layer-2', 100, 0.5, 5);
+            createStarsLayer('stars-layer-3', 80, 0.3, 8);
+            
+            // Создание планет
+            createPlanets();
+            
+            // Создание звездных полос для эффекта движения
+            setInterval(createStarTrail, 100);
+        }
+
+        function createStarsLayer(layerId, count, sizeMultiplier, speedMultiplier) {
+            const layer = document.getElementById(layerId);
+            
+            for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
-                star.style.width = `${Math.random() * 3}px`;
-                star.style.height = star.style.width;
+                
+                // Случайный размер
+                const baseSize = Math.random() * 2 + 0.5;
+                const size = baseSize * sizeMultiplier;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Случайная позиция
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.top = `${Math.random() * 100}%`;
-                star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                
+                // Случайная скорость мерцания
+                const duration = Math.random() * 3 + 2;
+                star.style.animationDuration = `${duration * speedMultiplier}s`;
                 star.style.animationDelay = `${Math.random() * 2}s`;
-                starsContainer.appendChild(star);
+                
+                layer.appendChild(star);
             }
+        }
+
+        function createPlanets() {
+            const planetsData = [
+                { size: 60, color: '#8e44ad', top: '20%', left: '15%', tx: '300px', ty: '-150px' },
+                { size: 45, color: '#3498db', top: '65%', left: '85%', tx: '-250px', ty: '-100px' },
+                { size: 35, color: '#e74c3c', top: '45%', left: '70%', tx: '-180px', ty: '120px' },
+                { size: 50, color: '#f39c12', top: '30%', left: '40%', tx: '200px', ty: '150px' },
+                { size: 28, color: '#2ecc71', top: '55%', left: '25%', tx: '-220px', ty: '-80px' },
+                { size: 40, color: '#9b59b6', top: '75%', left: '55%', tx: '150px', ty: '-200px' }
+            ];
+
+            const spaceBg = document.querySelector('.space-background');
+
+            planetsData.forEach(planet => {
+                const el = document.createElement('div');
+                el.className = 'planet';
+                el.style.width = `${planet.size}px`;
+                el.style.height = `${planet.size}px`;
+                el.style.backgroundColor = planet.color;
+                el.style.top = planet.top;
+                el.style.left = planet.left;
+                el.style.setProperty('--tx', planet.tx);
+                el.style.setProperty('--ty', planet.ty);
+                el.style.animationDuration = `${Math.random() * 60 + 90}s`;
+                el.style.animationDelay = `${Math.random() * 10}s`;
+                spaceBg.appendChild(el);
+            });
+        }
+
+        function createStarTrail() {
+            const trail = document.createElement('div');
+            trail.className = 'star-trail';
+            
+            // Случайная позиция по вертикали
+            const top = Math.random() * 100;
+            trail.style.top = `${top}%`;
+            
+            // Случайная длина
+            const width = Math.random() * 100 + 50;
+            trail.style.width = `${width}px`;
+            
+            // Случайная задержка
+            trail.style.animationDelay = `${Math.random() * 0.5}s`;
+            
+            document.body.appendChild(trail);
+            
+            // Удаляем элемент после анимации
+            setTimeout(() => {
+                trail.remove();
+            }, 3100);
         }
 
         // Инициализация викторины
         function initQuiz() {
-            createStars();
+            createSpaceBackground();
             
             startBtn.addEventListener('click', startQuiz);
             nextBtn.addEventListener('click', nextQuestion);
