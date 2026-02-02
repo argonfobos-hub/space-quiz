@@ -115,6 +115,47 @@
             50% { transform: translateZ(-180px) scale(1.05); }
         }
 
+        /* Ракета - пролетает наискосок */
+        .rocket {
+            position: fixed;
+            width: 60px;
+            height: 100px;
+            z-index: -1;
+            animation: fly-rocket 20s linear infinite;
+            opacity: 0;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 130, 0.7));
+        }
+
+        @keyframes fly-rocket {
+            0% { 
+                transform: translate(-150px, calc(100vh + 50px)) rotate(-45deg) scale(0.8);
+                opacity: 0;
+            }
+            5% { 
+                opacity: 1;
+            }
+            45% { 
+                opacity: 1;
+                filter: drop-shadow(0 0 25px rgba(255, 0, 130, 0.9));
+            }
+            50% {
+                filter: drop-shadow(0 0 35px rgba(255, 215, 0, 1));
+            }
+            55% {
+                filter: drop-shadow(0 0 25px rgba(255, 0, 130, 0.9));
+            }
+            90% { 
+                opacity: 1;
+            }
+            95% { 
+                opacity: 0.5;
+            }
+            100% { 
+                transform: translate(calc(100vw + 150px), -150px) rotate(-45deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
         /* Постоянный заголовок - ЯРКИЙ и ЗАГЛАВНЫМИ */
         .header {
             position: fixed;
@@ -663,6 +704,11 @@
             .nebula {
                 filter: blur(35px);
             }
+            
+            .rocket {
+                width: 45px;
+                height: 75px;
+            }
         }
         
         /* Для очень маленьких экранов */
@@ -710,6 +756,12 @@
             .stat-number {
                 font-size: 2em;
             }
+            
+            .rocket {
+                width: 40px;
+                height: 65px;
+                animation-duration: 15s;
+            }
         }
         
         /* Поддержка backdrop-filter для старых браузеров */
@@ -730,6 +782,30 @@
             <h1 class="header-title">ЗВЁЗДНЫЙ РУБЕЖ РОССИИ</h1>
         </div>
     </header>
+
+    <!-- Ракета -->
+    <div class="rocket">
+        <svg viewBox="0 0 100 200">
+            <!-- Корпус ракеты -->
+            <path d="M50 0 L70 60 L60 80 L70 120 L50 150 L30 120 L40 80 L30 60 Z" fill="#ff0080"/>
+            <!-- Носовая часть -->
+            <path d="M45 0 L55 0 L50 20 Z" fill="#ffd700"/>
+            <!-- Стабилизаторы -->
+            <path d="M45 150 L55 150 L55 180 L50 200 L45 180 Z" fill="#7928ca"/>
+            <path d="M0 100 L20 110 L20 130 L0 140 Z" fill="#ff0080" opacity="0.8"/>
+            <path d="M100 100 L80 110 L80 130 L100 140 Z" fill="#ff0080" opacity="0.8"/>
+            <!-- Иллюминатор -->
+            <circle cx="50" cy="40" r="8" fill="#ffd700"/>
+            <circle cx="50" cy="40" r="6" fill="#0a0e17"/>
+            <!-- Огонь сопла -->
+            <path d="M45 180 L55 180 L52 210 L50 220 L48 210 Z" fill="#ff4500">
+                <animate attributeName="opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite"/>
+            </path>
+            <path d="M47 180 L53 180 L51 200 L50 210 L49 200 Z" fill="#ffd700">
+                <animate attributeName="opacity" values="0.9;1;0.9" dur="0.4s" repeatCount="indefinite"/>
+            </path>
+        </svg>
+    </div>
 
     <div class="space-container">
         <div class="stars-layer stars-layer-1" id="stars-layer-1"></div>
